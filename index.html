@@ -5,309 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resolución a problemas algorítmicos</title>
-    <style>
-        /* Variables de colores y estilos modernos */
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
-            --sidebar-bg: #1f2937;
-            --text-light: #f9fafb;
-            --text-dark: #111827;
-            --card-bg: #ffffff;
-            --border: #e5e7eb;
-            --error: #ef4444;
-            --success: #10b981;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family:
-                "Segoe UI",
-                system-ui,
-                -apple-system,
-                sans-serif;
-        }
-
-        body {
-            display: flex;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-        }
-
-        /* Menú lateral (Sidebar) */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 10;
-            transition: transform 0.3s ease;
-            border-right: 1px solid #374151;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid #374151;
-            text-align: center;
-        }
-
-        .sidebar-header h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            line-height: 1.4;
-            color: var(--text-light);
-        }
-
-        /* Nueva sección de Perfil de Usuario */
-        .user-profile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 15px;
-            border-bottom: 1px solid #374151;
-            text-align: center;
-            background-color: #111827;
-        }
-
-        .user-avatar {
-            width: 64px;
-            height: 64px;
-            background-color: #374151;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            color: #9ca3af;
-            border: 2px solid #4b5563;
-        }
-
-        .user-avatar svg {
-            width: 36px;
-            height: 36px;
-            fill: currentColor;
-        }
-
-        .user-info .user-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 4px;
-        }
-
-        .user-info .user-program {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-bottom: 2px;
-            font-weight: 500;
-        }
-
-        .user-info .user-ficha {
-            font-size: 0.75rem;
-            color: #6b7280;
-            font-family: monospace;
-        }
-
-        .nav-links {
-            list-style: none;
-            padding: 10px 0;
-        }
-
-        .nav-links li {
-            padding: 0;
-        }
-
-        .nav-links a {
-            display: block;
-            padding: 15px 20px;
-            color: #d1d5db;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            border-left: 4px solid transparent;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            background-color: #374151;
-            color: white;
-            border-left-color: var(--primary);
-        }
-
-        /* Contenido principal */
-        .main-content {
-            margin-left: 260px;
-            padding: 40px;
-            width: calc(100% - 260px);
-        }
-
-        .header-mobile {
-            display: none;
-            background: var(--sidebar-bg);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* Tarjetas de ejercicios */
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .card.active {
-            display: block;
-        }
-
-        .card h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .description {
-            color: #4b5563;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Formularios y controles */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-            outline: none;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
-        .row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .col {
-            flex: 1;
-        }
-
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* Resultados */
-        .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8fafc;
-            border-left: 4px solid var(--primary);
-            border-radius: 4px;
-            display: none;
-        }
-
-        .error-msg {
-            color: var(--error);
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 20px;
-            }
-
-            .header-mobile {
-                display: block;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .menu-toggle {
-                background: transparent;
-                width: auto;
-                padding: 5px;
-            }
-
-            .row {
-                flex-direction: column;
-                gap: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
@@ -335,11 +33,11 @@
                 </svg>
             </div>
             <div class="user-info">
-                <div class="user-name">Tu Nombre Completo</div>
+                <div class="user-name">Diego Fernando Vega Muñoz</div>
                 <div class="user-program">
                     Análisis y Desarrollo de Software
                 </div>
-                <div class="user-ficha">Ficha: XXXXXXX</div>
+                <div class="user-ficha">Ficha: 3336124</div>
             </div>
         </div>
 
@@ -363,8 +61,7 @@
         <section id="ej1" class="card active">
             <h3>1. Calculadora de Figuras Planas</h3>
             <p class="description">
-                Seleccione una figura plana para calcular su área y
-                perímetro basándose en las fórmulas proporcionadas.
+                Seleccione una figura plana para calcular su área y perímetro basándose en las fórmulas proporcionadas.
             </p>
 
             <div class="form-group">
@@ -390,9 +87,8 @@
         <section id="ej2" class="card">
             <h3>2. Análisis de Edades</h3>
             <p class="description">
-                Almacene las edades de 10 personas (entre 1 y 120 años). El
-                sistema calculará las estadísticas automáticamente al
-                completar el cupo.
+                Almacene las edades de 10 personas (entre 1 y 120 años). El sistema calculará las estadísticas
+                automáticamente al completar el cupo.
             </p>
 
             <div class="row">
@@ -407,20 +103,13 @@
             </div>
 
             <p>Edades registradas: <strong id="ageCount">0</strong> / 10</p>
-            <div style="
-                        margin-top: 10px;
-                        color: var(--primary);
-                        font-family: monospace;
-                    " id="ageListDisplay">
+            <div style="margin-top: 10px; color: var(--primary); font-family: monospace;" id="ageListDisplay">
                 []
             </div>
 
             <div id="resEj2" class="result-box"></div>
-            <button onclick="resetAges()" style="
-                        margin-top: 15px;
-                        background-color: #6b7280;
-                        display: none;
-                    " id="btnResetAges">
+            <button onclick="resetAges()" style="margin-top: 15px; background-color: #6b7280; display: none;"
+                id="btnResetAges">
                 Limpiar e Intentar de nuevo
             </button>
         </section>
@@ -428,9 +117,8 @@
         <section id="ej3" class="card">
             <h3>3. Mezcla de Vectores Ordenados</h3>
             <p class="description">
-                Ingrese 5 números enteros ordenados ascendentemente en cada
-                vector. El sistema los validará y mezclará en una sola lista
-                ordenada.
+                Ingrese 5 números enteros ordenados ascendentemente en cada vector. El sistema los validará y mezclará
+                en una sola lista ordenada.
             </p>
 
             <div class="row">
@@ -451,8 +139,8 @@
         <section id="ej4" class="card">
             <h3>4. Encuesta de Emisora Musical</h3>
             <p class="description">
-                Registre los datos y gustos musicales de hasta 6 personas, o
-                consulte la información ingresada por posición.
+                Registre los datos y gustos musicales de hasta 6 personas, o consulte la información ingresada por
+                posición.
             </p>
 
             <div style="display: flex; gap: 10px; margin-bottom: 20px">
@@ -466,8 +154,7 @@
 
             <div id="emisoraForm">
                 <p>
-                    Personas registradas:
-                    <strong id="personCount">0</strong> / 6
+                    Personas registradas: <strong id="personCount">0</strong> / 6
                 </p>
                 <form id="formEncuesta" onsubmit="addPerson(event)">
                     <div class="row">
@@ -519,8 +206,7 @@
             <div id="emisoraSearch" style="display: none">
                 <div class="row">
                     <div class="col form-group">
-                        <label>Buscar persona por posición en el vector (0 a
-                            5):</label>
+                        <label>Buscar persona por posición en el vector (0 a 5):</label>
                         <input type="number" id="searchPos" min="0" max="5" />
                     </div>
                     <div class="col form-group" style="display: flex; align-items: flex-end">
@@ -532,313 +218,7 @@
         </section>
     </main>
 
-    <script>
-        // --- NAVEGACIÓN Y UI ---
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("open");
-        }
-
-        function showTab(tabId, element) {
-            document
-                .querySelectorAll(".card")
-                .forEach((card) => card.classList.remove("active"));
-            document.getElementById(tabId).classList.add("active");
-
-            document
-                .querySelectorAll(".nav-links a")
-                .forEach((link) => link.classList.remove("active"));
-            element.classList.add("active");
-
-            if (window.innerWidth <= 768) toggleMenu();
-        }
-
-        // --- EJERCICIO 1: FIGURAS PLANAS ---
-        function updateShapeInputs() {
-            const shape = document.getElementById("shapeSelect").value;
-            const container = document.getElementById("shapeInputs");
-            document.getElementById("resEj1").style.display = "none";
-            let html = "";
-
-            if (shape === "triangle") {
-                html = `<div class="row">
-                            <div class="col form-group"><label>Lado a:</label><input type="number" id="tA" step="any"></div>
-                            <div class="col form-group"><label>Base (Lado b):</label><input type="number" id="tB" step="any"></div>
-                            <div class="col form-group"><label>Lado c:</label><input type="number" id="tC" step="any"></div>
-                            <div class="col form-group"><label>Altura (h):</label><input type="number" id="tH" step="any"></div>
-                        </div>`;
-            } else if (shape === "rectangle") {
-                html = `<div class="row">
-                            <div class="col form-group"><label>Lado a (Altura):</label><input type="number" id="rA" step="any"></div>
-                            <div class="col form-group"><label>Lado b (Base):</label><input type="number" id="rB" step="any"></div>
-                        </div>`;
-            } else if (shape === "square") {
-                html = `<div class="form-group"><label>Lado a:</label><input type="number" id="sA" step="any"></div>`;
-            } else if (shape === "circle") {
-                html = `<div class="form-group"><label>Radio (r):</label><input type="number" id="cR" step="any"></div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        function calculateShape() {
-            const shape = document.getElementById("shapeSelect").value;
-            const resBox = document.getElementById("resEj1");
-            let area = 0,
-                perimeter = 0;
-
-            if (!shape) {
-                alert("Seleccione una figura primero.");
-                return;
-            }
-
-            try {
-                if (shape === "triangle") {
-                    let a = parseFloat(document.getElementById("tA").value);
-                    let b = parseFloat(document.getElementById("tB").value);
-                    let c = parseFloat(document.getElementById("tC").value);
-                    let h = parseFloat(document.getElementById("tH").value);
-                    if ([a, b, c, h].some(isNaN))
-                        throw "Complete todos los campos";
-                    perimeter = a + b + c;
-                    area = (b * h) / 2;
-                } else if (shape === "rectangle") {
-                    let a = parseFloat(document.getElementById("rA").value);
-                    let b = parseFloat(document.getElementById("rB").value);
-                    if ([a, b].some(isNaN))
-                        throw "Complete todos los campos";
-                    perimeter = 2 * (b + a);
-                    area = b * a;
-                } else if (shape === "square") {
-                    let a = parseFloat(document.getElementById("sA").value);
-                    if (isNaN(a)) throw "Ingrese el lado del cuadrado";
-                    perimeter = 4 * a;
-                    area = Math.pow(a, 2);
-                } else if (shape === "circle") {
-                    let r = parseFloat(document.getElementById("cR").value);
-                    if (isNaN(r)) throw "Ingrese el radio del círculo";
-                    perimeter = 2 * Math.PI * r;
-                    area = Math.PI * Math.pow(r, 2);
-                }
-
-                resBox.style.display = "block";
-                resBox.innerHTML = `<strong>Resultados:</strong><br>
-                                    Perímetro = ${perimeter.toFixed(2)}<br>
-                                    Área = ${area.toFixed(2)}`;
-            } catch (err) {
-                alert(err);
-            }
-        }
-
-        // --- EJERCICIO 2: EDADES ---
-        let ages = [];
-
-        function addAge() {
-            if (ages.length >= 10)
-                return alert("Ya se ingresaron las 10 edades.");
-
-            const ageInput = document.getElementById("ageInput");
-            const errorSpan = document.getElementById("ageError");
-            let age = parseInt(ageInput.value);
-
-            if (isNaN(age) || age < 1 || age > 120) {
-                errorSpan.style.display = "block";
-                ageInput.value = "";
-                return;
-            }
-
-            errorSpan.style.display = "none";
-            ages.push(age);
-
-            document.getElementById("ageCount").innerText = ages.length;
-            document.getElementById("ageListDisplay").innerText =
-                `[${ages.join(", ")}]`;
-            ageInput.value = "";
-            ageInput.focus();
-
-            if (ages.length === 10) {
-                calculateAges();
-            }
-        }
-
-        function calculateAges() {
-            let menores = 0,
-                mayores = 0,
-                adultosMayores = 0;
-            let suma = 0;
-            let minAge = ages[0];
-            let maxAge = ages[0];
-
-            ages.forEach((age) => {
-                if (age < 18) menores++;
-                if (age >= 18) mayores++;
-                if (age >= 60) adultosMayores++;
-
-                if (age < minAge) minAge = age;
-                if (age > maxAge) maxAge = age;
-                suma += age;
-            });
-
-            let promedio = suma / ages.length;
-
-            const resBox = document.getElementById("resEj2");
-            resBox.style.display = "block";
-            resBox.innerHTML = `
-                <strong>Estadísticas del grupo:</strong><br>
-                - Menores de edad (<18): ${menores}<br>
-                - Mayores de edad (>=18): ${mayores}<br>
-                - Adultos mayores (>=60): ${adultosMayores}<br>
-                - Edad más baja: ${minAge}<br>
-                - Edad más alta: ${maxAge}<br>
-                - Promedio de edades: ${promedio.toFixed(2)}
-            `;
-
-            document.getElementById("btnResetAges").style.display = "block";
-        }
-
-        function resetAges() {
-            ages = [];
-            document.getElementById("ageCount").innerText = "0";
-            document.getElementById("ageListDisplay").innerText = "[]";
-            document.getElementById("resEj2").style.display = "none";
-            document.getElementById("btnResetAges").style.display = "none";
-        }
-
-        // --- EJERCICIO 3: VECTORES ---
-        function parseAndValidateArray(strArray) {
-            let arr = strArray.split(",").map((n) => parseInt(n.trim()));
-            if (arr.length !== 5)
-                throw "El vector debe tener exactamente 5 números.";
-            if (arr.some(isNaN)) throw "Solo se permiten números enteros.";
-
-            for (let i = 0; i < arr.length - 1; i++) {
-                if (arr[i] > arr[i + 1])
-                    throw "Los números no están en orden ascendente estricto.";
-            }
-            return arr;
-        }
-
-        function mergeVectors() {
-            try {
-                let vec1Str = document.getElementById("vec1").value;
-                let vec2Str = document.getElementById("vec2").value;
-
-                if (!vec1Str || !vec2Str) throw "Debe llenar ambos campos.";
-
-                let v1 = parseAndValidateArray(vec1Str);
-                let v2 = parseAndValidateArray(vec2Str);
-
-                let mixedList = v1.concat(v2).sort((a, b) => a - b);
-
-                const resBox = document.getElementById("resEj3");
-                resBox.style.display = "block";
-                resBox.innerHTML = `<strong>Lista Mezclada y Ordenada:</strong><br>
-                                    <span style="font-size:1.2rem; color:var(--primary);">${mixedList.join(" ")}</span>`;
-            } catch (err) {
-                alert("Error: " + err);
-            }
-        }
-
-        // --- EJERCICIO 4: EMISORA ---
-        let encuestados = [];
-
-        function toggleEmisoraView(view) {
-            const form = document.getElementById("emisoraForm");
-            const search = document.getElementById("emisoraSearch");
-            const btnAdd = document.getElementById("btnTabAdd");
-            const btnSearch = document.getElementById("btnTabSearch");
-
-            if (view === "add") {
-                form.style.display = "block";
-                search.style.display = "none";
-                btnAdd.style.backgroundColor = "var(--primary)";
-                btnSearch.style.backgroundColor = "#6b7280";
-            } else {
-                form.style.display = "none";
-                search.style.display = "block";
-                btnAdd.style.backgroundColor = "#6b7280";
-                btnSearch.style.backgroundColor = "var(--primary)";
-                document.getElementById("resEj4").style.display = "none";
-            }
-        }
-
-        function addPerson(event) {
-            event.preventDefault();
-
-            if (encuestados.length >= 6) {
-                alert(
-                    "Ya se ha alcanzado el límite de 6 personas encuestadas.",
-                );
-                return;
-            }
-
-            const persona = {
-                nombre: document.getElementById("pNombre").value,
-                cedula: document.getElementById("pCedula").value,
-                fechaNacimiento: document.getElementById("pFecha").value,
-                correo: document.getElementById("pCorreo").value,
-                residencia: document.getElementById("pResidencia").value,
-                origen: document.getElementById("pOrigen").value,
-                canciones: [
-                    document.getElementById("pCancion1").value,
-                    document.getElementById("pCancion2").value,
-                    document.getElementById("pCancion3").value,
-                ],
-            };
-
-            encuestados.push(persona);
-            document.getElementById("personCount").innerText =
-                encuestados.length;
-
-            document.getElementById("formEncuesta").reset();
-            alert(
-                "Persona agregada exitosamente. Posición en vector: " +
-                (encuestados.length - 1),
-            );
-
-            if (encuestados.length === 6) {
-                document.getElementById("btnSubmitEncuesta").disabled =
-                    true;
-                document.getElementById(
-                    "btnSubmitEncuesta",
-                ).style.backgroundColor = "#9ca3af";
-                document.getElementById("btnSubmitEncuesta").innerText =
-                    "Cupo Lleno";
-            }
-        }
-
-        function searchPerson() {
-            const posInput = document.getElementById("searchPos").value;
-            const resBox = document.getElementById("resEj4");
-
-            if (posInput === "") return alert("Ingrese una posición.");
-
-            let pos = parseInt(posInput);
-            if (pos < 0 || pos > 5)
-                return alert("La posición debe estar entre 0 y 5.");
-
-            if (encuestados[pos] === undefined) {
-                resBox.style.display = "block";
-                resBox.innerHTML = `<span class="error-msg" style="display:block">No hay ninguna persona registrada en la posición ${pos}.</span>`;
-                return;
-            }
-
-            let p = encuestados[pos];
-            resBox.style.display = "block";
-            resBox.innerHTML = `
-                <strong>Información de la persona [Posición ${pos}]</strong><br>
-                <hr style="margin: 10px 0; border: 0; border-top: 1px solid #e5e7eb;">
-                <b>Nombre:</b> ${p.nombre} <br>
-                <b>Cédula:</b> ${p.cedula} <br>
-                <b>Fecha Nac.:</b> ${p.fechaNacimiento} <br>
-                <b>Correo:</b> ${p.correo} <br>
-                <b>C. Residencia:</b> ${p.residencia} <br>
-                <b>C. Origen:</b> ${p.origen} <br>
-                <br><b>Top 3 Canciones:</b><br>
-                1. ${p.canciones[0]}<br>
-                2. ${p.canciones[1]}<br>
-                3. ${p.canciones[2]}
-            `;
-        }
-    </script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
