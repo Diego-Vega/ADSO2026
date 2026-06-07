@@ -2,27 +2,60 @@
 export function updateShapeInputs() {
     const shape = document.getElementById("shapeSelect").value;
     const container = document.getElementById("shapeInputs");
-    document.getElementById("resEj1").style.display = "none";
-    let html = "";
 
-    if (shape === "triangle") {
-        html = `<div class="row">
-                    <div class="col form-group"><label>Lado a:</label><input type="number" id="tA" step="any"></div>
-                    <div class="col form-group"><label>Base (Lado b):</label><input type="number" id="tB" step="any"></div>
-                    <div class="col form-group"><label>Lado c:</label><input type="number" id="tC" step="any"></div>
-                    <div class="col form-group"><label>Altura (h):</label><input type="number" id="tH" step="any"></div>
-                </div>`;
-    } else if (shape === "rectangle") {
-        html = `<div class="row">
-                    <div class="col form-group"><label>Lado a (Altura):</label><input type="number" id="rA" step="any"></div>
-                    <div class="col form-group"><label>Lado b (Base):</label><input type="number" id="rB" step="any"></div>
-                </div>`;
-    } else if (shape === "square") {
-        html = `<div class="form-group"><label>Lado a:</label><input type="number" id="sA" step="any"></div>`;
-    } else if (shape === "circle") {
-        html = `<div class="form-group"><label>Radio (r):</label><input type="number" id="cR" step="any"></div>`;
-    }
-    container.innerHTML = html;
+    document.getElementById("resEj1").style.display = "none";
+
+    const templates = {
+        triangle: `
+            <div class="row">
+                <div class="col form-group">
+                    <label>Lado a:</label>
+                    <input type="number" id="tA" step="any">
+                </div>
+                <div class="col form-group">
+                    <label>Base (Lado b):</label>
+                    <input type="number" id="tB" step="any">
+                </div>
+                <div class="col form-group">
+                    <label>Lado c:</label>
+                    <input type="number" id="tC" step="any">
+                </div>
+                <div class="col form-group">
+                    <label>Altura (h):</label>
+                    <input type="number" id="tH" step="any">
+                </div>
+            </div>
+        `,
+
+        rectangle: `
+            <div class="row">
+                <div class="col form-group">
+                    <label>Lado a (Altura):</label>
+                    <input type="number" id="rA" step="any">
+                </div>
+                <div class="col form-group">
+                    <label>Lado b (Base):</label>
+                    <input type="number" id="rB" step="any">
+                </div>
+            </div>
+        `,
+
+        square: `
+            <div class="form-group">
+                <label>Lado a:</label>
+                <input type="number" id="sA" step="any">
+            </div>
+        `,
+
+        circle: `
+            <div class="form-group">
+                <label>Radio (r):</label>
+                <input type="number" id="cR" step="any">
+            </div>
+        `,
+    };
+
+    container.innerHTML = templates[shape] || "";
 }
 
 export function calculateShape() {
@@ -38,6 +71,7 @@ export function calculateShape() {
 
     try {
         if (shape === "triangle") {
+            // Triángulo
             let a = parseFloat(document.getElementById("tA").value);
             let b = parseFloat(document.getElementById("tB").value);
             let c = parseFloat(document.getElementById("tC").value);
@@ -46,17 +80,20 @@ export function calculateShape() {
             perimeter = a + b + c;
             area = (b * h) / 2;
         } else if (shape === "rectangle") {
+            // Rectángulo
             let a = parseFloat(document.getElementById("rA").value);
             let b = parseFloat(document.getElementById("rB").value);
             if ([a, b].some(isNaN)) throw "Complete todos los campos";
             perimeter = 2 * (b + a);
             area = b * a;
         } else if (shape === "square") {
+            // Cuadrado
             let a = parseFloat(document.getElementById("sA").value);
             if (isNaN(a)) throw "Ingrese el lado del cuadrado";
             perimeter = 4 * a;
             area = Math.pow(a, 2);
         } else if (shape === "circle") {
+            // Círculo
             let r = parseFloat(document.getElementById("cR").value);
             if (isNaN(r)) throw "Ingrese el radio del círculo";
             perimeter = 2 * Math.PI * r;
