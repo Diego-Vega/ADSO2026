@@ -1,9 +1,224 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body></body>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resolución a problemas algorítmicos</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <div class="header-mobile">
+        <span>Menú de Ejercicios</span>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Evidencia de Aprendizaje</h2>
+        </div>
+        <div class="sidebar-header">
+            <h2>Estructuras de Almacenamiento</h2>
+            <p style="font-size: 0.8rem; color: #9ca3af; margin-top: 5px">
+                GA3-220501093-AA3-EV02
+            </p>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+            </div>
+            <div class="user-info">
+                <div class="user-name">Diego Fernando Vega Muñoz</div>
+                <div class="user-program">
+                    Análisis y Desarrollo de Software
+                </div>
+                <div class="user-ficha">Ficha: 3336124</div>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li>
+                <a class="active" onclick="showTab('ej1', this)">1. Figuras Planas</a>
+            </li>
+            <li>
+                <a onclick="showTab('ej2', this)">2. Análisis de Edades</a>
+            </li>
+            <li>
+                <a onclick="showTab('ej3', this)">3. Mezcla de Vectores</a>
+            </li>
+            <li>
+                <a onclick="showTab('ej4', this)">4. Encuesta de Emisora</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <section id="ej1" class="card active">
+            <h3>1. Calculadora de Figuras Planas</h3>
+            <p class="description">
+                Seleccione una figura plana para calcular su área y perímetro basándose en las fórmulas proporcionadas.
+            </p>
+
+            <div class="form-group">
+                <label>Seleccionar Figura:</label>
+                <select id="shapeSelect" onchange="updateShapeInputs()">
+                    <option value="">-- Seleccione --</option>
+                    <option value="triangle">Triángulo</option>
+                    <option value="rectangle">Rectángulo</option>
+                    <option value="square">Cuadrado</option>
+                    <option value="circle">Círculo</option>
+                </select>
+            </div>
+
+            <div id="shapeInputs"></div>
+
+            <button onclick="calculateShape()" style="margin-top: 15px">
+                Calcular
+            </button>
+
+            <div id="resEj1" class="result-box"></div>
+        </section>
+
+        <section id="ej2" class="card">
+            <h3>2. Análisis de Edades</h3>
+            <p class="description">
+                Almacene las edades de 10 personas (entre 1 y 120 años). El sistema calculará las estadísticas
+                automáticamente al completar el cupo.
+            </p>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>Ingrese una edad:</label>
+                    <input type="number" id="ageInput" min="1" max="120" placeholder="Ej: 25" />
+                    <span id="ageError" class="error-msg">La edad debe estar entre 1 y 120.</span>
+                </div>
+                <div class="col form-group" style="display: flex; align-items: flex-end">
+                    <button onclick="addAge()">Agregar Edad</button>
+                </div>
+            </div>
+
+            <p>Edades registradas: <strong id="ageCount">0</strong> / 10</p>
+            <div style="margin-top: 10px; color: var(--primary); font-family: monospace;" id="ageListDisplay">
+                []
+            </div>
+
+            <div id="resEj2" class="result-box"></div>
+            <button onclick="resetAges()" style="margin-top: 15px; background-color: #6b7280; display: none;"
+                id="btnResetAges">
+                Limpiar e Intentar de nuevo
+            </button>
+        </section>
+
+        <section id="ej3" class="card">
+            <h3>3. Mezcla de Vectores Ordenados</h3>
+            <p class="description">
+                Ingrese 5 números enteros ordenados ascendentemente en cada vector. El sistema los validará y mezclará
+                en una sola lista ordenada.
+            </p>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label>Vector 1 (5 números separados por coma):</label>
+                    <input type="text" id="vec1" placeholder="Ej: 1, 3, 6, 9, 17" />
+                </div>
+                <div class="col form-group">
+                    <label>Vector 2 (5 números separados por coma):</label>
+                    <input type="text" id="vec2" placeholder="Ej: 2, 4, 10, 15, 17" />
+                </div>
+            </div>
+
+            <button onclick="mergeVectors()">Mezclar Vectores</button>
+            <div id="resEj3" class="result-box"></div>
+        </section>
+
+        <section id="ej4" class="card">
+            <h3>4. Encuesta de Emisora Musical</h3>
+            <p class="description">
+                Registre los datos y gustos musicales de hasta 6 personas, o consulte la información ingresada por
+                posición.
+            </p>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 20px">
+                <button onclick="toggleEmisoraView('add')" id="btnTabAdd">
+                    Agregar Persona
+                </button>
+                <button onclick="toggleEmisoraView('search')" id="btnTabSearch" style="background-color: #6b7280">
+                    Buscar por Posición
+                </button>
+            </div>
+
+            <div id="emisoraForm">
+                <p>
+                    Personas registradas: <strong id="personCount">0</strong> / 6
+                </p>
+                <form id="formEncuesta" onsubmit="addPerson(event)">
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Nombre Completo:</label><input type="text" id="pNombre" required />
+                        </div>
+                        <div class="col form-group">
+                            <label>Cédula:</label><input type="text" id="pCedula" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Fecha Nacimiento:</label><input type="date" id="pFecha" required />
+                        </div>
+                        <div class="col form-group">
+                            <label>Correo Electrónico:</label><input type="email" id="pCorreo" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Ciudad Residencia:</label><input type="text" id="pResidencia" required />
+                        </div>
+                        <div class="col form-group">
+                            <label>Ciudad Origen:</label><input type="text" id="pOrigen" required />
+                        </div>
+                    </div>
+
+                    <h4 style="margin: 15px 0 10px 0; color: var(--primary)">
+                        Top 3 Canciones Favoritas
+                    </h4>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>1. Título - Artista:</label><input type="text" id="pCancion1"
+                                placeholder="Ej: Shape of You - Ed Sheeran" required />
+                        </div>
+                        <div class="col form-group">
+                            <label>2. Título - Artista:</label><input type="text" id="pCancion2" required />
+                        </div>
+                        <div class="col form-group">
+                            <label>3. Título - Artista:</label><input type="text" id="pCancion3" required />
+                        </div>
+                    </div>
+                    <button type="submit" id="btnSubmitEncuesta">
+                        Guardar Registro
+                    </button>
+                </form>
+            </div>
+
+            <div id="emisoraSearch" style="display: none">
+                <div class="row">
+                    <div class="col form-group">
+                        <label>Buscar persona por posición en el vector (0 a 5):</label>
+                        <input type="number" id="searchPos" min="0" max="5" />
+                    </div>
+                    <div class="col form-group" style="display: flex; align-items: flex-end">
+                        <button onclick="searchPerson()">Buscar</button>
+                    </div>
+                </div>
+                <div id="resEj4" class="result-box"></div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+
 </html>
